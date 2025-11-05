@@ -5,7 +5,7 @@ import org.example.dao.VenueDao;
 
 public class VenueDaoImpl extends GenericDaoImpl<Venue,Long> implements VenueDao {
 
-    public VenueDaoImpl(Class<Venue> entityClass) {
-        super(entityClass);
+    public VenueDaoImpl() {
+        super(Venue.class);
     }
 }

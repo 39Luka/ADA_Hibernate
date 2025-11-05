@@ -4,7 +4,7 @@ import org.example.Actividad1.Tag;
 import org.example.dao.TagDao;
 
 public class TagDaoImpl extends GenericDaoImpl<Tag,Long> implements TagDao {
-    public TagDaoImpl(Class<Tag> entityClass) {
-        super(entityClass);
+    public TagDaoImpl() {
+        super(Tag.class);
     }
 }
