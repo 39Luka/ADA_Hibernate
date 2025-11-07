@@ -23,7 +23,68 @@ public class TagService {
         spaceDao = new SpaceDaoImpl();
         tagDao = new TagDaoImpl();
     }
-
+    public Long create(Tag tag){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            tagDao.save(s,tag);
+            tx.commit();
+            return tag.getId();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public Tag findById(Long id){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            Tag tag = tagDao.findById(s,id);
+            tx.commit();
+            return tag;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public void update(Tag tag){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            tagDao.update(s,tag);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null ) tx.rollback();
+            throw e;
+        }
+    }
+    public void deleteById(Long id){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            tagDao.deleteById(s, id);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public void delete(Tag tag){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            tagDao.delete(s, tag);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
     public void addTagToSpace(Long spaceId, Long tagId){
         Transaction tx = null;
         try{

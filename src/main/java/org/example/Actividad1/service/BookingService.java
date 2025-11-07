@@ -26,7 +26,68 @@ public class BookingService {
         this.spaceDao = new SpaceDaoImpl();
         this.bookingDao = new BookingDaoImpl();
     }
-
+    public Long create(Booking booking){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            bookingDao.save(s,booking);
+            tx.commit();
+            return booking.getId();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public Booking findById(Long id){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            Booking booking = bookingDao.findById(s,id);
+            tx.commit();
+            return booking;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public void update(Booking booking){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            bookingDao.update(s,booking);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null ) tx.rollback();
+            throw e;
+        }
+    }
+    public void deleteById(Long id){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            bookingDao.deleteById(s, id);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public void delete(Booking booking){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            bookingDao.delete(s, booking);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
     public void create(Long userId, Long spaceId, LocalDateTime start, LocalDateTime end, Integer totalPrice, BookingStatus status){
         Transaction tx = null;
         try {

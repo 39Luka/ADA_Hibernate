@@ -21,7 +21,68 @@ public class SpaceService {
         this.venueDao = new VenueDaoImpl();
         this.spaceDao = new SpaceDaoImpl();
     }
-
+    public Long create(Space space){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            spaceDao.save(s,space);
+            tx.commit();
+            return space.getId();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public Space findById(Long id){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            Space space = spaceDao.findById(s,id);
+            tx.commit();
+            return space;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public void update(Space space){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            spaceDao.update(s,space);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null ) tx.rollback();
+            throw e;
+        }
+    }
+    public void deleteById(Long id){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            spaceDao.deleteById(s, id);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public void delete(Space space){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+            spaceDao.delete(s, space);
+            tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
     public void createService(Long venueId, Space space){
         Transaction tx = null;
         try {
