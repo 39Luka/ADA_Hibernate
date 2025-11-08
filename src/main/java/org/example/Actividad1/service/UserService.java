@@ -11,6 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.time.LocalDateTime;
+
 public class UserService {
     private final SessionFactory sf;
     private final UserDao userDao;
@@ -85,28 +87,34 @@ public class UserService {
     }
 
 
-    public void assignAccessCard(Long userId, String uid){
+    public Long assignAccessCard(Long userId, String uid) {
         Transaction tx = null;
         try {
             Session s = sf.getCurrentSession();
             tx = s.beginTransaction();
 
+            User user = userDao.findById(s, userId);
+            if (user == null) throw new PersistenceException("Usuario no encontrado");
+
             AccessCard newAccessCard = new AccessCard();
             newAccessCard.setCardUid(uid);
             newAccessCard.setActive(true);
-            accessCardDao.save(s, newAccessCard);
+            newAccessCard.setIssuedAt(LocalDateTime.now());
+            newAccessCard.setUser(user);
 
-            User user = userDao.findById(s, userId);
-            if (user == null) throw new PersistenceException("Usuario no encontrado");
+            Long accessCardId = accessCardDao.save(s, newAccessCard); // ahora sí
             user.setAccessCard(newAccessCard);
             userDao.update(s, user);
 
             tx.commit();
-        }catch (PersistenceException e){
+            System.out.println("Tarjeta asignada a " + user.getFullName() + " con ID " + accessCardId);
+            return accessCardId;
+        } catch (PersistenceException e) {
             if (tx != null) tx.rollback();
             throw e;
         }
     }
+
 
     public void updateAccessCard(Long userId, boolean active, String newUid){
         Transaction tx = null;

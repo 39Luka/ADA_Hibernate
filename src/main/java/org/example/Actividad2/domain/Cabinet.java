@@ -1,11 +1,17 @@
 package org.example.Actividad2.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "cabinet")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Cabinet {
 
     @Id

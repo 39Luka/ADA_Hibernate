@@ -83,7 +83,7 @@ public class SpaceService {
             throw e;
         }
     }
-    public void createService(Long venueId, Space space){
+    public Long createService(Long venueId, Space space){
         Transaction tx = null;
         try {
             Session s = sf.getCurrentSession();
@@ -94,10 +94,11 @@ public class SpaceService {
 
             space.setVenue(venue);
 
-            spaceDao.save(s, space);
-
+           Long spaceId =  spaceDao.save(s, space);
 
             tx.commit();
+            return spaceId;
+
         }catch (PersistenceException e){
             if(tx != null) tx.rollback();
             throw e;

@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
+
 public class Venue {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +34,11 @@ public class Venue {
 
     @OneToMany(mappedBy = "venue")
     private List<Space> spaces = new ArrayList<>();
+
+    public Venue(String address, String city, LocalDateTime createdAt, String name) {
+        this.address = address;
+        this.city = city;
+        this.createdAt = createdAt;
+        this.name = name;
+    }
 }

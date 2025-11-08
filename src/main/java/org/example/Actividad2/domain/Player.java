@@ -2,10 +2,17 @@ package org.example.Actividad2.domain;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "player")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Player {
 
     @Id
@@ -20,5 +27,6 @@ public class Player {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
 
 }

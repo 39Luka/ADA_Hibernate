@@ -13,6 +13,7 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
+
 public class Tag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +24,8 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private Set<Space> spaces = new HashSet<>();
+
+    public Tag(String name) {
+        this.name = name;
+    }
 }

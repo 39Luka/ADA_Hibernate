@@ -30,4 +30,6 @@ public class AccessCard {
     @OneToOne
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
+
+
 }

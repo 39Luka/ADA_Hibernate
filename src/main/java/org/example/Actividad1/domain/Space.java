@@ -16,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class Space {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,5 +55,14 @@ public class Space {
 
     @OneToMany(mappedBy = "space")
     private List<Booking> bookings = new ArrayList<>();
+
+    public Space(boolean active, String code, Integer capacity, BigDecimal hourlyPrice, String name, SpaceType type) {
+        this.active = active;
+        this.code = code;
+        this.capacity = capacity;
+        this.hourlyPrice = hourlyPrice;
+        this.name = name;
+        this.type = type;
+    }
 }
 

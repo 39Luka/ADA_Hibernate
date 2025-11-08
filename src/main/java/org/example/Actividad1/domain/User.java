@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class User {
 
     @Id
@@ -34,4 +35,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings = new ArrayList<>();
+
+    public User(LocalDateTime createdAt, String fullName, String email) {
+        this.createdAt = createdAt;
+        this.fullName = fullName;
+        this.email = email;
+    }
 }

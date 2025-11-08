@@ -88,7 +88,7 @@ public class BookingService {
             throw e;
         }
     }
-    public void create(Long userId, Long spaceId, LocalDateTime start, LocalDateTime end, Integer totalPrice, BookingStatus status){
+    public Long create(Long userId, Long spaceId, LocalDateTime start, LocalDateTime end, Integer totalPrice, BookingStatus status){
         Transaction tx = null;
         try {
             Session s = sf.getCurrentSession();
@@ -107,10 +107,12 @@ public class BookingService {
             booking.setStatus(status);
             booking.setUser(user);
             booking.setSpace(space);
+            booking.setCreatedAt(LocalDateTime.now());
 
-            bookingDao.save(s, booking);
+            Long bookingId =bookingDao.save(s, booking);
 
             tx.commit();
+            return bookingId;
         }catch (PersistenceException e){
             if(tx != null) tx.rollback();
             throw e;

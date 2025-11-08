@@ -40,4 +40,11 @@ public class Booking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public Booking(LocalDateTime createdAt, LocalDateTime startTime, LocalDateTime endTime, BookingStatus status, Integer totalPrice) {
+        this.createdAt = createdAt;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = status;
+        this.totalPrice = totalPrice;
+    }
 }
