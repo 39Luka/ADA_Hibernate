@@ -74,4 +74,52 @@ public class PlayerService {
             throw e;
         }
     }
+
+    public void cambiarUID(Long playerUID, String newCardUid){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx= s.beginTransaction();
+
+            Player player = playerDao.findById(s,playerUID);
+            if (player == null) throw new PersistentObjectException("No existe el jugador");
+
+            RfidCard rfidCard = player.getRfidCard();
+            if (rfidCard == null) throw new PersistentObjectException("El jugador no tiene una tarjeta");
+
+            rfidCard.setUid(newCardUid);
+
+            rfidCardDao.update(s,rfidCard);
+
+            tx.commit();
+        }catch (PersistentObjectException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+    public void retirarCard(Long playerUID){
+        Transaction tx = null;
+
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            Player player = playerDao.findById(s,playerUID);
+            if (player == null) throw new PersistentObjectException("No existe el jugador");
+
+            RfidCard rfidCard = player.getRfidCard();
+            if (rfidCard == null) throw new PersistentObjectException("El jugador no tiene una tarjeta");
+
+            rfidCard.setPlayer(null);
+            rfidCardDao.delete(s,rfidCard);
+
+            playerDao.update(s,player);
+
+            tx.commit();
+        }catch (PersistentObjectException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
 }

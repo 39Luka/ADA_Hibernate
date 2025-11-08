@@ -28,5 +28,6 @@ public class Player {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-
+    @OneToOne(mappedBy = "player") // 'player' es el campo de RfidCard que es el propietario
+    private RfidCard rfidCard;
 }
