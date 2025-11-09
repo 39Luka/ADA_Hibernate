@@ -6,6 +6,6 @@ import org.example.Actividad2.domain.Cabinet;
 
 public class CabinetDaoImpl extends GenericDaoImpl<Cabinet,Long> implements CabinetDao {
     public CabinetDaoImpl() {
-        super(Cabinet.class);
+        super(Cabinet.class, Long.class);
     }
 }

@@ -5,6 +5,6 @@ import org.example.Actividad2.domain.Tag;
 
 public class TagDaoImpl extends GenericDaoImpl<Tag,Long> implements TagDao {
     public TagDaoImpl() {
-        super(Tag.class);
+        super(Tag.class, Long.class);
     }
 }

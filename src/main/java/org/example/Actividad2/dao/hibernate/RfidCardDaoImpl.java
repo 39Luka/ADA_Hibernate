@@ -5,6 +5,6 @@ import org.example.Actividad2.domain.RfidCard;
 
 public class RfidCardDaoImpl extends GenericDaoImpl<RfidCard, Long> implements RfidCardDao {
     public RfidCardDaoImpl() {
-        super(RfidCard.class);
+        super(RfidCard.class, Long.class);
     }
 }

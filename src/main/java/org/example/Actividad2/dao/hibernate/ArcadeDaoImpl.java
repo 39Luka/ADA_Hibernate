@@ -5,6 +5,6 @@ import org.example.Actividad2.domain.Arcade;
 
 public class ArcadeDaoImpl extends GenericDaoImpl<Arcade,Long> implements ArcadeDao {
     public ArcadeDaoImpl() {
-        super(Arcade.class);
+        super(Arcade.class, Long.class);
     }
 }

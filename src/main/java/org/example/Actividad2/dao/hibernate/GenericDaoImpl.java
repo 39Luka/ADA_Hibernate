@@ -4,17 +4,20 @@ import org.example.Actividad1.dao.GenericDao;
 import org.hibernate.Session;
 
 public class GenericDaoImpl<T, ID> implements GenericDao<T, ID> {
-    private Class<T> entityClass;
 
-    public GenericDaoImpl(Class<T> entityClass) {
+    private final Class<T> entityClass;
+    private final Class<ID> idClass;
+
+    public GenericDaoImpl(Class<T> entityClass, Class<ID> idClass) {
         this.entityClass = entityClass;
+        this.idClass = idClass;
     }
 
     @Override
     public ID save(Session session, T entity) {
         session.persist(entity);
         session.flush();
-        return (ID) session.getIdentifier(entity);
+        return idClass.cast(session.getIdentifier(entity)); // cast seguro
     }
 
     @Override
@@ -34,8 +37,8 @@ public class GenericDaoImpl<T, ID> implements GenericDao<T, ID> {
 
     @Override
     public boolean deleteById(Session session, ID id) {
-        T entity = session.find(entityClass,id);
-        if (entity != null){
+        T entity = session.find(entityClass, id);
+        if (entity != null) {
             session.remove(entity);
             return true;
         }

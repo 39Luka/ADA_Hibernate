@@ -45,5 +45,4 @@ public class Cabinet {
 
 
 }
-enum Status {ACTIVE, MAINTENANCE, RETIRED}
 

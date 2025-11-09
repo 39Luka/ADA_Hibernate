@@ -5,6 +5,6 @@ import org.example.Actividad2.domain.Player;
 
 public class PlayerDaoImpl extends GenericDaoImpl<Player,Long> implements PlayerDao {
     public PlayerDaoImpl() {
-        super(Player.class);
+        super(Player.class, Long.class);
     }
 }

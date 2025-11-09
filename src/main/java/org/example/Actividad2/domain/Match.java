@@ -39,4 +39,3 @@ public class Match {
     private Cabinet cabinet;
 
 }
-enum Result {WIN, LOSE, DRAW}
