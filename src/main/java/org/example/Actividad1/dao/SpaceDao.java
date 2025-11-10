@@ -1,6 +1,16 @@
 package org.example.Actividad1.dao;
 
 import org.example.Actividad1.domain.Space;
+import org.example.Actividad1.dto.MostProfitSpacesDto;
+import org.hibernate.Session;
+
+import java.util.List;
 
 public interface SpaceDao extends GenericDao<Space, Long> {
+    List<MostProfitSpacesDto> findTop3MostProfitSpaces(Session session);
+
+    List<Space> encontrarEspacionNuncaReservados(Session session);
+
+    List<String> top5CiudadesMasEspacios(Session session);
+
 }

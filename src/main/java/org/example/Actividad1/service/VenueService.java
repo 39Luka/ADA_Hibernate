@@ -3,10 +3,13 @@ package org.example.Actividad1.service;
 import org.example.Actividad1.dao.VenueDao;
 import org.example.Actividad1.dao.hibernate.VenueDaoImpl;
 import org.example.Actividad1.domain.Venue;
+import org.example.Actividad1.dto.MostProfitSpacesDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import jakarta.persistence.PersistenceException;
+
+import java.util.List;
 
 public class VenueService {
     private final SessionFactory sf;
@@ -16,6 +19,8 @@ public class VenueService {
         this.sf = sf;
         this.venueDao = new VenueDaoImpl();
     }
+
+
 
     public Long create(Venue venue){
         Transaction tx = null;
@@ -79,4 +84,22 @@ public class VenueService {
             throw e;
         }
     }
+
+    public List<Venue> getVenueByCiudad(String city){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Venue> venues = venueDao.venuePorCiudad(s,city);
+
+            tx.commit();
+            return venues;
+        }catch (PersistenceException e){
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+
 }

@@ -7,9 +7,12 @@ import org.example.Actividad1.dao.SpaceDao;
 import org.example.Actividad1.dao.VenueDao;
 import org.example.Actividad1.dao.hibernate.SpaceDaoImpl;
 import org.example.Actividad1.dao.hibernate.VenueDaoImpl;
+import org.example.Actividad1.dto.MostProfitSpacesDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import java.util.List;
 
 public class SpaceService {
     private final SessionFactory sf;
@@ -104,4 +107,49 @@ public class SpaceService {
             throw e;
         }
     }
+    public List<MostProfitSpacesDto> getMostPorfitSpace(){
+        Transaction tx = null;
+        try{
+            Session session = sf.getCurrentSession();
+            tx = session.beginTransaction();
+            List<MostProfitSpacesDto> list = spaceDao.findTop3MostProfitSpaces(session);
+            tx.commit();
+            return list;
+        }catch (PersistenceException e){
+            if(tx != null)tx.rollback();
+            throw e;
+        }
+    }
+
+    public List<Space> getEspaciosNoReservados(){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Space> spaces = spaceDao.encontrarEspacionNuncaReservados(s);
+
+            tx.commit();
+            return spaces;
+        }catch (PersistenceException e){
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public List<String> top5CiudadesMasEspacios(){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<String> ciudades = spaceDao.top5CiudadesMasEspacios(s);
+
+            tx.commit();
+            return ciudades;
+        }catch (PersistenceException e){
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
 }

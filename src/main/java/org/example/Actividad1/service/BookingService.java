@@ -8,11 +8,13 @@ import org.example.Actividad1.dao.hibernate.BookingDaoImpl;
 import org.example.Actividad1.dao.hibernate.SpaceDaoImpl;
 import org.example.Actividad1.dao.hibernate.UserDaoImpl;
 import org.example.Actividad1.domain.*;
+import org.example.Actividad1.dto.VenueIncome;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class BookingService {
     private final SessionFactory sf;
@@ -120,4 +122,21 @@ public class BookingService {
 
 
     }
+
+    public List<VenueIncome> venueEnRango(LocalDateTime start, LocalDateTime end){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<VenueIncome> venues = bookingDao.venuesConIngresosEntreFechas(s,start,end);
+
+            tx.commit();
+            return venues;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
 }

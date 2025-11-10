@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,7 +15,11 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-
+@NamedQuery(
+        name = "Venue.findByName",
+        query = "select v from Venue v where v.city = :city order by v.name"
+)
+@ToString(exclude = "spaces")
 public class Venue {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
