@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Cabinet {
 
     @Id
@@ -26,6 +28,9 @@ public class Cabinet {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    @Column
+    private Long hourly_cost;
 
     @ManyToOne
     @JoinColumn(name = "arcade_id", nullable = false)

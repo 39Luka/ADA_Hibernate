@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "game")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Game {
 
     @Id
@@ -24,5 +26,8 @@ public class Game {
 
     @Column(nullable = false)
     private Integer releaseYear;
+
+    @Column
+    private String genre;
 
 }

@@ -7,10 +7,12 @@ import org.example.Actividad1.dao.hibernate.SpaceDaoImpl;
 import org.example.Actividad1.dao.hibernate.TagDaoImpl;
 import org.example.Actividad1.domain.Space;
 import org.example.Actividad1.domain.Tag;
+import org.example.Actividad1.dto.TagUseDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
 import java.util.Set;
 
 public class TagService {
@@ -102,6 +104,37 @@ public class TagService {
             spaceDao.update(s, space);
 
             tx.commit();
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+    public List<TagUseDto> usoTags(){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<TagUseDto> tags = tagDao.tagsByUse(s);
+
+            tx.commit();
+            return tags;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+    public List<Tag> tagQueComienzan(String comienzo){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Tag> tags = tagDao.tagQueComiencenPor(s,comienzo);
+
+            tx.commit();
+            return tags;
         }catch (PersistenceException e){
             if(tx != null) tx.rollback();
             throw e;

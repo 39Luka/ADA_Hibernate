@@ -4,6 +4,7 @@ import org.example.Actividad1.domain.BookingStatus;
 import org.example.Actividad1.domain.Space;
 import org.example.Actividad1.dao.SpaceDao;
 import org.example.Actividad1.dto.MostProfitSpacesDto;
+import org.example.Actividad1.dto.SpaceByVenueTagDto;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -46,6 +47,17 @@ public class SpaceDaoImpl extends GenericDaoImpl<Space,Long> implements SpaceDao
         String query = "select s.venue.city from Space s group by s.venue.city order by count(s.id) desc";
         return session.createQuery(query, String.class)
                 .setMaxResults(5)
+                .getResultList();
+    }
+
+    @Override
+    public List<SpaceByVenueTagDto> spacePorVenueTag(Session session) {
+        String query = "select new org.example.Actividad1.dto.SpaceByVenueTagDto(s.venue.name, t.name, count(s)) " +
+                "from Space s " +
+                "join s.tags t " +
+                "group by s.venue.name, t.name";
+
+        return session.createQuery(query, SpaceByVenueTagDto.class)
                 .getResultList();
     }
 

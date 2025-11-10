@@ -14,6 +14,10 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @ToString
+@NamedQuery(
+        name = "Booking.confirmedByRangeVenue",
+        query = "select b from Booking b where b.status = :status and startTime >= :start and endTime <= :end order by b.space.venue"
+)
 public class Booking {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

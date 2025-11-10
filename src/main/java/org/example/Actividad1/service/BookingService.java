@@ -8,7 +8,7 @@ import org.example.Actividad1.dao.hibernate.BookingDaoImpl;
 import org.example.Actividad1.dao.hibernate.SpaceDaoImpl;
 import org.example.Actividad1.dao.hibernate.UserDaoImpl;
 import org.example.Actividad1.domain.*;
-import org.example.Actividad1.dto.VenueIncome;
+import org.example.Actividad1.dto.VenueIncomeDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -123,16 +123,48 @@ public class BookingService {
 
     }
 
-    public List<VenueIncome> venueEnRango(LocalDateTime start, LocalDateTime end){
+    public List<VenueIncomeDto> venueEnRango(LocalDateTime start, LocalDateTime end){
         Transaction tx = null;
         try{
             Session s = sf.getCurrentSession();
             tx = s.beginTransaction();
 
-            List<VenueIncome> venues = bookingDao.venuesConIngresosEntreFechas(s,start,end);
+            List<VenueIncomeDto> venues = bookingDao.venuesConIngresosEntreFechas(s,start,end);
 
             tx.commit();
             return venues;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+    public List<Booking> bookingsConfirmedByRange(LocalDateTime start, LocalDateTime end){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Booking> bookings = bookingDao.bookingsConfirmedByRange(s,start,end);
+
+            tx.commit();
+            return bookings;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+
+    }
+    public List<Space> spacesConfirmedByIncome(){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Space> spaces = bookingDao.top3SpaceConfirmedIncomes(s);
+
+            tx.commit();
+            return spaces;
         }catch (PersistenceException e){
             if(tx != null) tx.rollback();
             throw e;

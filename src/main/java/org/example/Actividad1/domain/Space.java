@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "bookings")
+@ToString(exclude = {"bookings","tags"})
 public class Space {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

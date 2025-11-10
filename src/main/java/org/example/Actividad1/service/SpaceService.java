@@ -8,10 +8,12 @@ import org.example.Actividad1.dao.VenueDao;
 import org.example.Actividad1.dao.hibernate.SpaceDaoImpl;
 import org.example.Actividad1.dao.hibernate.VenueDaoImpl;
 import org.example.Actividad1.dto.MostProfitSpacesDto;
+import org.example.Actividad1.dto.SpaceByVenueTagDto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.sql.ClientInfoStatus;
 import java.util.List;
 
 public class SpaceService {
@@ -152,4 +154,19 @@ public class SpaceService {
         }
     }
 
+    public List<SpaceByVenueTagDto> spacePorVenueTag(){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<SpaceByVenueTagDto> space = spaceDao.spacePorVenueTag(s);
+
+            tx.commit();
+            return space;
+        }catch (PersistenceException e){
+            if( tx != null) tx.rollback();
+            throw e;
+        }
+    }
 }

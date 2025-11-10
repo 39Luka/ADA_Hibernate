@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Match {
 
     @Id
@@ -29,6 +31,9 @@ public class Match {
 
     @Column(nullable = false)
     private Integer creditsUsed;
+
+    @Column
+    private LocalDateTime endAt;
 
     @ManyToOne
     @JoinColumn(name = "player_id", nullable = false)
