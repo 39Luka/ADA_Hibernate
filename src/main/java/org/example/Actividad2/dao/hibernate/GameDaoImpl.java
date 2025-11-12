@@ -13,13 +13,16 @@ public class GameDaoImpl extends GenericDaoImpl<Game,Long> implements GameDao {
     }
 
     @Override
-    public List<Game> gamesTopMatchesRango(Session session, LocalDateTime start, LocalDateTime end) {
+    public List<Game> gamesMatchesRango(Session session, LocalDateTime start, LocalDateTime end) {
         String query = "select m.cabinet.game " +
                 "from Match m " +
                 "where m.startAt >= :start and m.endAt <= :end " +
                 "group by m.cabinet.game " +
                 "order by count(m) desc";
 
-        return List.of();
+        return session.createQuery(query, Game.class)
+                .setParameter("start",start)
+                .setParameter("end",end)
+                .getResultList();
     }
 }

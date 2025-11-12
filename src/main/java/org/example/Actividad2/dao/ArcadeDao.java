@@ -8,4 +8,6 @@ import java.util.List;
 public interface ArcadeDao extends GenericDao<Arcade,Long> {
 
      List<Arcade> arcadesPorNombre(Session session, String name);
+
+     List<Arcade> ingresosEstimadosArcades(Session session);
 }
