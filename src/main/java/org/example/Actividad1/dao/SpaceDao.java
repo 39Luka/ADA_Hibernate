@@ -5,6 +5,7 @@ import org.example.Actividad1.dto.MostProfitSpacesDto;
 import org.example.Actividad1.dto.SpaceByVenueTagDto;
 import org.hibernate.Session;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface SpaceDao extends GenericDao<Space, Long> {
@@ -16,4 +17,7 @@ public interface SpaceDao extends GenericDao<Space, Long> {
 
     List<SpaceByVenueTagDto> spacePorVenueTag(Session session);
 
+    List<Space> spaceElxWifi(Session session);
+
+    List<Space> active(Session session, int capacidadMin, BigDecimal precioMax);
 }

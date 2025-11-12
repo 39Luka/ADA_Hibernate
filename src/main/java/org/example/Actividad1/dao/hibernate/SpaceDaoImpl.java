@@ -1,12 +1,19 @@
 package org.example.Actividad1.dao.hibernate;
 
+import com.mysql.cj.util.SaslPrep;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import org.example.Actividad1.domain.BookingStatus;
 import org.example.Actividad1.domain.Space;
 import org.example.Actividad1.dao.SpaceDao;
+import org.example.Actividad1.domain.Tag;
 import org.example.Actividad1.dto.MostProfitSpacesDto;
 import org.example.Actividad1.dto.SpaceByVenueTagDto;
 import org.hibernate.Session;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -59,6 +66,41 @@ public class SpaceDaoImpl extends GenericDaoImpl<Space,Long> implements SpaceDao
 
         return session.createQuery(query, SpaceByVenueTagDto.class)
                 .getResultList();
+    }
+
+    @Override
+    public List<Space> spaceElxWifi(Session session) {
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Space> cq = cb.createQuery(Space.class);
+        Root<Space> root = cq.from(Space.class);
+        Join<Space, Tag> tagJoin = root.join("tags");
+
+        cq.select(root)
+                .where(
+                     cb.and(
+                            cb.like(root.get("name"), "%ELX%"),
+                            cb.equal(tagJoin.get("name"), "wifi")
+
+                         )
+        );
+
+        return session.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Space> active(Session session, int capacidadMin, BigDecimal precioMax) {
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Space> cq = cb.createQuery(Space.class);
+        Root<Space> spaceRoot = cq.from(Space.class);
+
+        cq.select(spaceRoot)
+                .where(
+                        cb.and(
+                        cb.isTrue(spaceRoot.get("active")), cb.ge(spaceRoot.get("capacity"), capacidadMin), cb.le(spaceRoot.get("hourlyPrice"), precioMax)
+                        )
+                ).orderBy(cb.asc(spaceRoot.get("hourlyPrice")));
+
+        return session.createQuery(cq).getResultList();
     }
 
 
