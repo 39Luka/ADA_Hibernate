@@ -1,5 +1,6 @@
 package org.example.Actividad2.dao;
 
+import org.example.Actividad1.dto.ArcadeIncomeDto;
 import org.example.Actividad2.domain.Arcade;
 import org.hibernate.Session;
 
@@ -10,5 +11,5 @@ public interface ArcadeDao extends GenericDao<Arcade,Long> {
 
      List<Arcade> arcadesPorNombre(Session session, String name);
 
-     List<Arcade> ingresosEstimadosArcades(Session session, LocalDateTime start, LocalDateTime end);
+     List<ArcadeIncomeDto> ingresosEstimadosArcades(Session session, LocalDateTime start, LocalDateTime end);
 }
