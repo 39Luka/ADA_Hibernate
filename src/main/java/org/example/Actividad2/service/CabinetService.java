@@ -1,5 +1,6 @@
 package org.example.Actividad2.service;
 
+import jakarta.persistence.PersistenceException;
 import org.example.Actividad2.dao.ArcadeDao;
 import org.example.Actividad2.dao.CabinetDao;
 import org.example.Actividad2.dao.GameDao;
@@ -12,11 +13,14 @@ import org.example.Actividad2.domain.Arcade;
 import org.example.Actividad2.domain.Cabinet;
 import org.example.Actividad2.domain.Game;
 import org.example.Actividad2.domain.Tag;
+import org.example.Actividad2.dto.CabinetPorGeneroDto;
 import org.hibernate.PersistentObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public class CabinetService {
@@ -122,5 +126,36 @@ public class CabinetService {
         }
     }
 
+    public List<CabinetPorGeneroDto> cabinetPorGenero(){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<CabinetPorGeneroDto> cabinet = cabinetDao.cabinetPorGenero(s);
+
+            tx.commit();
+            return cabinet;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+    public List<Cabinet> sinPartidas(LocalDateTime fecha){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Cabinet> cabinet = cabinetDao.sinPartidaDesde(s, fecha);
+
+            tx.commit();
+            return cabinet;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
 
 }

@@ -1,6 +1,6 @@
 package org.example.Actividad2.dao;
 
-import org.example.Actividad1.dto.ArcadeIncomeDto;
+import org.example.Actividad2.dto.ArcadeIncomeDto;
 import org.example.Actividad2.domain.Arcade;
 import org.hibernate.Session;
 

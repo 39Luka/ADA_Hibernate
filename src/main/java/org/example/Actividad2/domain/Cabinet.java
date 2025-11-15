@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"tags","matches"})
 public class Cabinet {
 
     @Id
@@ -48,6 +49,8 @@ public class Cabinet {
     )
     private Set<Tag> tags = new java.util.HashSet<>();
 
+    @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
+    private Set<Match> matches = new HashSet<>();
 
 }
 

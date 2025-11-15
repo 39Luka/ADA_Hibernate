@@ -37,6 +37,8 @@ public final class HibernateUtil2 {
                     .addAnnotatedClass(Player.class)
                     .addAnnotatedClass(RfidCard.class)
                     .addAnnotatedClass(Tag.class)
+                    .addAnnotatedClass(Achievement.class)
+
                     .buildMetadata()
                     .buildSessionFactory();
         }

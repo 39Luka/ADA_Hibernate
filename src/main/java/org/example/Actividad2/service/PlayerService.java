@@ -1,5 +1,6 @@
 package org.example.Actividad2.service;
 
+import jakarta.persistence.PersistenceException;
 import org.example.Actividad2.dao.PlayerDao;
 import org.example.Actividad2.dao.RfidCardDao;
 import org.example.Actividad2.dao.hibernate.PlayerDaoImpl;
@@ -12,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PlayerService {
 
@@ -120,6 +122,37 @@ public class PlayerService {
         }catch (PersistentObjectException e){
             if(tx != null) tx.rollback();
             throw e;
+        }
+    }
+
+    public List<Player> playerInactivosJugaronEn(LocalDateTime fecha){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Player> players = playerDao.inactivosQueJugaronEn(s,fecha);
+            tx.commit();
+            return players;
+        }catch (PersistenceException e){
+            if(tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+    public List<Player> jugadoresConLogros(int cantidad){
+        Transaction tx = null;
+        try {
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Player> players = playerDao.jugadoresNLogros(s, cantidad);
+            tx.commit();
+
+            return  players;
+        }catch (PersistenceException e){
+            if (tx != null) tx.rollback();
+            throw  e;
         }
     }
 }

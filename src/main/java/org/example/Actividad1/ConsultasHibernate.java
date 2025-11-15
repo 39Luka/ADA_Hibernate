@@ -13,6 +13,8 @@ import org.example.Actividad1.service.TagService;
 import org.example.Actividad1.service.VenueService;
 import org.hibernate.SessionFactory;
 
+import javax.sound.midi.Soundbank;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,7 +37,9 @@ public class ConsultasHibernate {
         List<VenueIncomeDto> lista = bookingService.venueEnRango(LocalDateTime.of(2025,11,12,5,5),LocalDateTime.of(2025,11,13,5,5));
         System.out.println(lista);
         //Actividad 1.4, Espacios activos por capacidad mínima y precio máximo
-
+        System.out.println("Actividad 1.4, Espacios activos por capacidad mínima y precio máximo");
+        List<Space> spacesL = spaceService.activeCapacidadMinPrecioMax(15, BigDecimal.valueOf(8));
+        System.out.println(spacesL);
         //Actividad 1.5 Espacios nunca reservados
         System.out.println("Actividad 1.5 Espacios nunca reservados");
         System.out.println(spaceService.getEspaciosNoReservados());
@@ -57,6 +61,7 @@ public class ConsultasHibernate {
         List<Tag> tags = tagService.tagQueComienzan("sil");
         System.out.println(tags);
         //Actividad 1.10 Devuelve un conteo de cuántos espacios hay por cada combinación de ciudad (del Venue) y Tag.
+        System.out.println("Actividad 1.10");
         List<SpaceByVenueTagDto> spaces = spaceService.spacePorVenueTag();
         System.out.println(spaces);
     }

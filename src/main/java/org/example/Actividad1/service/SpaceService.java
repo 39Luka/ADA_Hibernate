@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.math.BigDecimal;
 import java.sql.ClientInfoStatus;
 import java.util.List;
 
@@ -161,6 +162,23 @@ public class SpaceService {
             tx = s.beginTransaction();
 
             List<SpaceByVenueTagDto> space = spaceDao.spacePorVenueTag(s);
+
+            tx.commit();
+            return space;
+        }catch (PersistenceException e){
+            if( tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+
+    public List<Space> activeCapacidadMinPrecioMax(int capacidad, BigDecimal precio){
+        Transaction tx = null;
+        try{
+            Session s = sf.getCurrentSession();
+            tx = s.beginTransaction();
+
+            List<Space> space = spaceDao.activeCapMinPrecioMax(s, capacidad,precio);
 
             tx.commit();
             return space;

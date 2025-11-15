@@ -19,5 +19,5 @@ public interface SpaceDao extends GenericDao<Space, Long> {
 
     List<Space> spaceElxWifi(Session session);
 
-    List<Space> active(Session session, int capacidadMin, BigDecimal precioMax);
+    List<Space> activeCapMinPrecioMax(Session session, int capacidadMin, BigDecimal precioMax);
 }

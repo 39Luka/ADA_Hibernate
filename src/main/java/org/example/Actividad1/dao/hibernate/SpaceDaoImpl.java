@@ -88,7 +88,7 @@ public class SpaceDaoImpl extends GenericDaoImpl<Space,Long> implements SpaceDao
     }
 
     @Override
-    public List<Space> active(Session session, int capacidadMin, BigDecimal precioMax) {
+    public List<Space> activeCapMinPrecioMax(Session session, int capacidadMin, BigDecimal precioMax) {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Space> cq = cb.createQuery(Space.class);
         Root<Space> spaceRoot = cq.from(Space.class);

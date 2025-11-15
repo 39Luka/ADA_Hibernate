@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "player")
@@ -32,4 +34,15 @@ public class Player {
 
     @OneToOne(mappedBy = "player") // 'player' es el campo de RfidCard que es el propietario
     private RfidCard rfidCard;
+
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private Set<Match> matches = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "player_achievement",
+            joinColumns = @JoinColumn(name = "player_id"),
+            inverseJoinColumns = @JoinColumn(name = "achievement_id")
+    )
+    private Set<Achievement> achievements = new HashSet<>();
 }

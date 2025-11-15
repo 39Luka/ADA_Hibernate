@@ -1,4 +1,5 @@
-package org.example.Actividad1.dto;
+package org.example.Actividad2.dto;
+
 
 public record ArcadeIncomeDto(String arcade, Long income) {
 }
